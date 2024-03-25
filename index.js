@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import winston from "winston";
-import { routes } from "./routes";
+import routes from "./startup/routes.js";
 const app = express();
 
 dotenv.config();
