@@ -1,11 +1,13 @@
 import express from "express";
 import dotenv from "dotenv";
-
+import winston from "winston";
+import { routes } from "./routes";
 const app = express();
+
 dotenv.config();
 
-const PORT = process.env.PORT || 7000;
+routes(app);
 
-app.listen(PORT, () => {
-  console.log(`Server is running on ${PORT}`);
-});
+const port = process.env.PORT || 5000;
+
+app.listen(port, () => winston.info(`listening on port ${port}`));

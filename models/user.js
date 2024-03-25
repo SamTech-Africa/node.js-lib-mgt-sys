@@ -4,7 +4,7 @@ import Joi from "joi";
 import jwt from "jsonwebtoken";
 
 dotenv.config();
-const ACCESS_TOKEN = process.env.ACCESS_TOKEN;
+const AccessToken = process.env.ACCESS_TOKEN;
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema({
 userSchema.methods.generateAuthToken = function () {
   const token = jwt.sign(
     { _id: this._id, roles: this.roles.Admin },
-    ACCESS_TOKEN
+    AccessToken
   );
 
   return token;
