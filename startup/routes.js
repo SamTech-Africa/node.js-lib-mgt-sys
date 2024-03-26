@@ -1,11 +1,13 @@
 import express from "express";
-import error from "../middleware/error.js";
-import auth from "../routes/login.js";
+import errorHandler from "../middleware/error.js";
+import login from "../routes/login.js";
 import users from "../routes/users.js";
 
-module.exports = function (app) {
+const routes = (app) => {
   app.use(express.json());
   app.use("/api/users", users);
-  app.use("/api/auth", auth);
-  app.use(error);
+  app.use("/api/auth", login);
+  app.use(errorHandler);
 };
+
+export default routes;

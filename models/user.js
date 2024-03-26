@@ -1,4 +1,4 @@
-import dotenv, { config } from "dotenv";
+import dotenv from "dotenv";
 import mongoose from "mongoose";
 import Joi from "joi";
 import jwt from "jsonwebtoken";
@@ -50,5 +50,4 @@ function validateUser(user) {
   return schema.validate(user);
 }
 
-exports.User = User;
-exports.validate = validateUser;
+export { User, validateUser };
