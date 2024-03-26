@@ -9,7 +9,6 @@ const db = () => {
     })
     .then(() => winston.info("Database is connected successfully"))
     .catch((error) => winston.error("Error connecting to database.", error));
-  process.exit(-1);
 };
 
 export default db;
