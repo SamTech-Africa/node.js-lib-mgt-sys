@@ -6,7 +6,7 @@ import users from "../routes/users.js";
 const routes = (app) => {
   app.use(express.json());
   app.use("/api/users", users);
-  app.use("/api/auth", login);
+  app.use("/api/login", login);
   app.use(errorHandler);
 };
 

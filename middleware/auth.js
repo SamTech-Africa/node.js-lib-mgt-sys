@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
+import config from "config";
 
 dotenv.config();
-const AccessToken = process.env.ACCESS_TOKEN;
+const AccessToken = config.get("jwtPrivateKey");
 
 module.exports = function (req, res, next) {
   const token = req.header("x-auth-token");
