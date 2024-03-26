@@ -3,7 +3,7 @@ import "winston-mongodb";
 import "express-async-errors";
 import config from "config";
 
-module.exports = () => {
+const logging = () => {
   winston.exceptions.handle(
     new winston.transports.File({
       filename: "uncaughtExceptions.log",
@@ -27,3 +27,5 @@ module.exports = () => {
     })
   );
 };
+
+export default logging;
