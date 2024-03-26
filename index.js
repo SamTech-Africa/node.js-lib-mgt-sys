@@ -10,4 +10,4 @@ db();
 
 const port = process.env.PORT || config.get("port");
 
-app.listen(port, () => console.log(`listening on port ${port}`));
+app.listen(port, () => winston.info(`listening on port ${port}`));

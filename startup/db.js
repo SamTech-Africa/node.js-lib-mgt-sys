@@ -5,8 +5,8 @@ import winston from "winston";
 const db = () => {
   mongoose
     .connect(config.get("db_url"))
-    .then(() => console.log("Database is connected successfully"))
-    .catch((error) => console.error("Error connecting to database.", error));
+    .then(() => winston.info("Database is connected successfully"))
+    .catch((error) => winston.error("Error connecting to database.", error));
 };
 
 export default db;
