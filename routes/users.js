@@ -7,14 +7,14 @@ const router = express.Router();
 
 router.post("/", async (req, res) => {
   let requestBody = req.body;
-  const { error } = validate(requestBody);
+  const { error } = validateUser(requestBody);
 
-  if (error) return res.status(400).send(error.detail[0].message);
+  if (error) return res.status(400).send(error.details[0].message);
 
   let user = await User.findOne({ email: requestBody.email });
   if (user) return res.status(400).send("User already exists.");
 
-  user = new User(_.pick(requestBody, ["name", "email", "password"]));
+  user = new User(_.pick(requestBody, ["name", "email", "password", "role"]));
 
   const salt = await bcrypt.genSalt(10);
   user.password = await bcrypt.hash(user.password, salt);
@@ -23,7 +23,7 @@ router.post("/", async (req, res) => {
 
   const token = user.generateAuthToken();
 
-  const response = _.pick(user, ["id", "name", "email"]);
+  const response = _.pick(user, ["id", "name", "email", "role"]);
 
   res.header("x-auth-token", token).send(response);
 });

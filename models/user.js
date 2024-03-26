@@ -1,10 +1,9 @@
-import dotenv from "dotenv";
+import config from "config";
 import mongoose from "mongoose";
 import Joi from "joi";
 import jwt from "jsonwebtoken";
 
-dotenv.config();
-const AccessToken = process.env.ACCESS_TOKEN;
+const Roles = ["Admin", "User"];
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -26,13 +25,17 @@ const userSchema = new mongoose.Schema({
     minLength: 6,
     maxLength: 1024,
   },
-  roles: ["Admin", "user"],
+  role: {
+    type: String,
+    required: true,
+    enum: Roles,
+  },
 });
 
 userSchema.methods.generateAuthToken = function () {
   const token = jwt.sign(
     { _id: this._id, roles: this.roles.Admin },
-    AccessToken
+    config.get("jwtPrivateKey")
   );
 
   return token;
@@ -45,6 +48,9 @@ function validateUser(user) {
     name: Joi.string().min(5).max(50).required(),
     email: Joi.string().min(5).max(255).required().email(),
     password: Joi.string().min(5).max(255).required(),
+    role: Joi.string()
+      .valid(...Roles)
+      .required(),
   });
 
   return schema.validate(user);

@@ -1,13 +1,10 @@
-import dotenv from "dotenv";
+import config from "config";
 import mongoose from "mongoose";
 import winston from "winston";
 
-dotenv.config();
-const MONGO_URL = process.env.MONGO_URL;
-
 module.exports = function () {
   mongoose
-    .connect(MONGO_URL)
+    .connect(config.get("db_url"))
     .then(() => winston.info("Database is connected successfully"))
     .catch((error) => winston.error("Error connecting to database.", error));
 };

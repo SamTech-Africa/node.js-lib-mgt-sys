@@ -1,13 +1,11 @@
 import express from "express";
-import dotenv from "dotenv";
+import config from "config";
 import winston from "winston";
 import routes from "./startup/routes.js";
 const app = express();
 
-dotenv.config();
-
 routes(app);
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || config.get("port");
 
-app.listen(port, () => winston.info(`listening on port ${port}`));
+app.listen(port, () => console.log(`listening on port ${port}`));
