@@ -5,37 +5,48 @@ import jwt from "jsonwebtoken";
 
 const Roles = ["Admin", "User"];
 
-const userSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    minLength: 5,
-    maxLength: 50,
+const userSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      minLength: 5,
+      maxLength: 50,
+    },
+    email: {
+      type: String,
+      required: true,
+      minLength: 5,
+      maxLength: 255,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+      minLength: 6,
+      maxLength: 1024,
+    },
+    role: {
+      type: String,
+      required: true,
+      enum: Roles,
+      default: "User",
+    },
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
   },
-  email: {
-    type: String,
-    required: true,
-    minLength: 5,
-    maxLength: 255,
-    unique: true,
-  },
-  password: {
-    type: String,
-    required: true,
-    minLength: 6,
-    maxLength: 1024,
-  },
-  role: {
-    type: String,
-    required: true,
-    enum: Roles,
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
 userSchema.methods.generateAuthToken = function () {
   const token = jwt.sign(
     { _id: this._id, roles: this.role.Admin },
-    config.get("jwtPrivateKey")
+    config.get("jwtPrivateKey"),
+    { expiresIn: "5m" }
   );
 
   return token;

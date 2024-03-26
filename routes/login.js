@@ -10,11 +10,18 @@ router.post("/", async (req, res) => {
 
   const { error } = validate(requestBody);
 
-  if (error) return res.status(400).send(error.detail[0].message);
+  if (error) return res.status(400).send(error.details[0].message);
 
   let user = await User.findOne({ email: requestBody.email });
 
   if (!user) return res.status(400).send("Invalid email or password.");
+
+  if (!user.isVerified)
+    return res
+      .status(400)
+      .send(
+        "Your account has not been verified. Kindly verify your account and try again."
+      );
 
   const validPassword = await bcrypt.compare(
     requestBody.password,
@@ -24,7 +31,7 @@ router.post("/", async (req, res) => {
   if (!validPassword) return res.status(400).send("Invalid email or password.");
 
   const token = user.generateAuthToken();
-  res.send(token);
+  res.send({ token, message: "Login successful!" });
 });
 
 function validate(req) {
