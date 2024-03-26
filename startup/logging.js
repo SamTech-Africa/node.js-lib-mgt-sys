@@ -1,2 +1,3 @@
 import winston from "winston";
-import winstonMongodb from "winston-mongodb";
+import "winston-mongodb";
+import "express-async-errors";
