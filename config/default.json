@@ -2,5 +2,5 @@
   "jwtPrivateKey": "",
   "db_url": "mongodb://localhost/library_management_system",
   "port": "5252",
-  "api_key": "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"
+  "api_key": ""
 }
